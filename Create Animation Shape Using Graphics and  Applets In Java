@@ -1,0 +1,59 @@
+ Lines And Rectangles 
+import java.applet.*; 
+import java.awt.*; 
+public class ShapeAnimation extends Applet implements 
+Runnable { 
+private int x = 10; // initial x-coordinate for the shape 
+private int y = 10; // initial y-coordinate for the shape 
+private int direction = 1; // initial direction of movement 
+private boolean isRunning = true; // flag to control the 
+animation 
+private Thread animationThread; // thread for 
+animation 
+public void init() { 
+setBackground(Color.WHITE); 
+} 
+public void start() { 
+        // Start the animation thread 
+        if (animationThread == null) { 
+            animationThread = new Thread(this); 
+            animationThread.start(); 
+        } 
+    } 
+ 
+    public void run() { 
+        while (isRunning) { 
+            // Move the shape 
+            x += direction; 
+             
+            // Reverse direction if shape reaches the edges 
+            if (x >= getWidth() - 50 || x <= 0) { 
+                direction = -direction; 
+            } 
+ 
+            // Repaint the applet 
+            repaint(); 
+ 
+            try { 
+                // Pause the animation for 50 milliseconds 
+                Thread.sleep(50); 
+            } catch (InterruptedException e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
+ 
+    public void paint(Graphics g) { 
+        // Draw a line 
+        g.setColor(Color.BLUE); 
+        g.drawLine(x, y, x + 50, y + 50); 
+// Draw a rectangle 
+g.setColor(Color.RED); 
+g.fillRect(x + 100, y + 50, 50, 50); 
+} 
+public void stop() { 
+// Stop the animation thread 
+isRunning = false; 
+animationThread = null; 
+} 
+}
