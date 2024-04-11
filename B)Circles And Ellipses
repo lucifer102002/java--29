@@ -1,0 +1,59 @@
+import java.applet.*; 
+import java.awt.*; 
+public class ShapeAnimation extends Applet implements 
+Runnable { 
+int xCircle = 50; // Initial x-coordinate of the circle 
+int yCircle = 100; // Initial y-coordinate of the circle 
+int xEllipse = 150; // Initial x-coordinate of the ellipse 
+int yEllipse = 100; // Initial y-coordinate of the ellipse 
+int dx = 5; // Change in x-coordinate for animation 
+int dy = 3; // Change in y-coordinate for animation 
+Thread t; 
+public void init() { 
+setBackground(Color.white); 
+} 
+public void start() { 
+t = new Thread(this); 
+t.start(); 
+} 
+public void run() { 
+while (true) { 
+moveShapes(); 
+repaint(); 
+try { 
+Thread.sleep(100); // Adjust speed of animation 
+here 
+} 
+} 
+} catch (InterruptedException e) { 
+e.printStackTrace(); 
+} 
+public void moveShapes() { 
+// Move the circle 
+xCircle += dx; 
+yCircle += dy; 
+// Check boundaries for the circle 
+if (xCircle >= getWidth() || xCircle <= 0) { 
+dx = -dx; // Change direction if boundary is reached 
+} 
+if (yCircle >= getHeight() || yCircle <= 0) { 
+dy = -dy; // Change direction if boundary is reached 
+} 
+// Move the ellipse 
+xEllipse += dx; 
+yEllipse += dy; 
+// Check boundaries for the ellipse 
+if (xEllipse >= getWidth() || xEllipse <= 0) { 
+dx = -dx; // Change direction if boundary is reached 
+} 
+if (yEllipse >= getHeight() || yEllipse <= 0) { 
+dy = -dy; // Change direction if boundary is reached 
+} 
+} 
+public void paint(Graphics g) { 
+g.setColor(Color.blue); 
+g.fillOval(xCircle, yCircle, 50, 50); // Draw circle 
+g.setColor(Color.red); 
+g.fillOval(xEllipse, yEllipse, 70, 40); // Draw ellipse 
+} 
+}
