@@ -1,0 +1,58 @@
+import java.applet.*; 
+import java.awt.*; 
+public class AnimatedPolygonApplet extends Applet 
+implements Runnable { 
+private int[] xPoints = {50, 100, 150}; // X coordinates of 
+the polygon vertices 
+private int[] yPoints = {100, 50, 100}; // Y coordinates of 
+the polygon vertices 
+private int numPoints = 3; // Number of points in the 
+polygon 
+private int dx = 1; // Change in x position for animation 
+private Thread animator; // Thread for animation 
+public void init() { 
+setBackground(Color.white); 
+} 
+public void start() { 
+if (animator == null) { 
+animator = new Thread(this); 
+animator.start(); 
+        } 
+    } 
+     
+    public void stop() { 
+        animator = null; 
+    } 
+     
+    public void run() { 
+        while (true) { 
+            movePolygon(); // Move the polygon 
+            repaint(); // Request repaint to animate 
+            try { 
+                Thread.sleep(10); // Pause for a moment 
+            } catch (InterruptedException e) { 
+                e.printStackTrace(); 
+            } 
+        } 
+    } 
+     
+    private void movePolygon() { 
+        int maxX = getWidth() - 150; // Adjust for polygon 
+width 
+        int minX = 0; 
+         
+        // Update x coordinates 
+        for (int i = 0; i < numPoints; i++) { 
+            xPoints[i] += dx; 
+        } 
+         
+        // Reverse direction if reaching edge 
+        if (xPoints[0] <= minX || xPoints[2] >= maxX) { 
+            dx *= -1; 
+        } 
+} 
+public void paint(Graphics g) { 
+g.setColor(Color.blue); 
+g.fillPolygon(xPoints, yPoints, numPoints); 
+} 
+}
