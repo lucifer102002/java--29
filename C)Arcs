@@ -1,0 +1,44 @@
+import java.applet.*; 
+import java.awt.*; 
+public class ArcAnimation extends Applet implements 
+Runnable { 
+private int startAngle = 0; 
+private Thread animationThread; 
+private boolean isRunning = false; 
+public void init() { 
+setBackground(Color.white); 
+} 
+public void start() { 
+if (animationThread == null) { 
+animationThread = new Thread(this); 
+isRunning = true; 
+animationThread.start(); 
+} 
+} 
+public void stop() { 
+isRunning = false; 
+} 
+public void run() { 
+while (isRunning) { 
+try { 
+Thread.sleep(50); // Adjust the speed of rotation 
+startAngle += 5; // Adjust the rotation increment 
+repaint(); 
+} catch (InterruptedException e) { 
+e.printStackTrace(); 
+} 
+} 
+} 
+public void paint(Graphics g) { 
+int centerX = getWidth() / 2; 
+int centerY = getHeight() / 2; 
+int radius = 50; 
+// Clear the screen 
+g.clearRect(0, 0, getWidth(), getHeight()); 
+// Set the color to blue 
+g.setColor(Color.BLUE); 
+// Draw the arc 
+g.fillArc(centerX - radius, centerY - radius, 2 * radius, 2 
+* radius, startAngle, 90); 
+} 
+}
